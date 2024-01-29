@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +34,14 @@ public class TweetController {
     }
 
     @GetMapping("/user/{userId}")
-    public String getTweetsByUserId() {
-        return "Em implementação";
+    public ResponseEntity<Object> getTweetsByUserId(@PathVariable Long userId) {
+        Optional<List<TweetModel>> tweets = tweetService.findByUserId(userId);
+
+        if (!tweets.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found for given userId");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(tweets.get());
     }
 
     @PostMapping

@@ -1,5 +1,6 @@
 package com.tweteroo.api.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,16 @@ public class TweetService {
 
     public List<TweetModel> findAll() {
         return tweetRepository.findAll();
+    }
+
+    public Optional<List<TweetModel>> findByUserId(Long id) {
+        Optional<UserModel> user = userRepository.findById(id);
+
+        if (!user.isPresent()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(tweetRepository.findByUser(user.get()));
     }
 
     public Optional<TweetModel> save(@RequestBody TweetDTO dto) {
