@@ -1,11 +1,9 @@
 package com.tweteroo.api.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.tweteroo.api.dtos.TweetDTO;
 import com.tweteroo.api.models.TweetModel;
@@ -38,7 +36,7 @@ public class TweetService {
         return Optional.of(tweetRepository.findByUser(user.get()));
     }
 
-    public Optional<TweetModel> save(@RequestBody TweetDTO dto) {
+    public Optional<TweetModel> save(TweetDTO dto) {
         Optional<UserModel> user = userRepository.findById(dto.getUserId());
 
         if(!user.isPresent()) {
